@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js.js"></script>
+</head>
+<header>
+    <h1>SUDOKU</h1>
+    <div id="nastaveni">
+        <div id="obtiznost">
+            <h3>Vyberte si obtížnost:</h3>
+            <label><input id="obtiznost-1" type="radio" name="obtiznost" value="jednoducha" checked>Jednoduchá</label>
+            <label><input id="obtiznost-2" type="radio" name="obtiznost" value="stredni">Střední</label>
+            <label><input id="obtiznost-3" type="radio" name="obtiznost" value="obtizna">Obtížná</label>
+        </div>
+        <div id="cas">
+            <label></label>
+            <h3>Vyberte si čas:</h3>
+            <label><input id="cas-1" type="radio" name="cas" value="pet" checked>5 min</label>
+            <label><input id="cas-2" type="radio" name="cas" value="deset">10 min</label>
+            <label><input id="cas-3" type="radio" name="cas" value="patnact">15 min</label>
+        </div>
+    </div>
+    <button id="tlacitko">Začít novou hru</button>
+</header>
+<body>
+    <div id="statistiky">
+        <p id="casovac"></p>
+    </div>
+    <div id="hra">
+        <div id="tabulka"></div>
+        <div id="ctverecky" class="hidden">
+            <p id="jedna">1</p>
+            <p id="dva">2</p>
+            <p id="tri">3</p>
+            <p id="ctyri">4</p>
+            <p id="pet">5</p>
+            <p id="sest">6</p>
+            <p id="sedm">7</p>
+            <p id="osm">8</p>
+            <p id="devet">9</p>
+        </div>
+
+    </div>
+</body>
+<footer>
+    <p>&copy;Martin Čech SŠPU Opava</p>
+</footer>
+</html>
