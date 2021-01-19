@@ -1,7 +1,7 @@
-//
+//Ručně dělané zadání
 const jednoducha = [
-    "6------7------5-2------1---362----81--96-----71--9-4-5-2---651---78----345----29",
-    "685329174971485326234761859362574981549618732718293465823946517197852643456137290"
+    "6------7-9----5-2------1---362----81--96-----71--9-4-5-2---651---78----345----29-",
+    "685329174971485326234761859362574981549618732718293465823946517197852643456137298"
 ];
 const stredni = [
     "--9-------4----6-758-31----15--4-36-------4-8----9-------75----3-------1--2--3--",
@@ -13,6 +13,7 @@ const obtizna = [
 ];
 var casovac;
 var zbyvajiciCas;
+var zivoty;
 var vybraneCislo;
 var vybranePole;
 var odstranitVyber;
@@ -27,20 +28,20 @@ window.onload = function(){
                 //Číslo je vybráno
                 if (this.classList.contains("vybrano")){
                     //Odstranit výběr
-                    this.classList.remove("vybrano")
+                    this.classList.remove("vybrano");
                     vybraneCislo = null;
                 }else{
                     //Zruší výběr všech ostatních čísel
                     for (let i = 0; i < 9; i++){
-                        id("ctverecky")[i].children[i].classList.remove("vybrano");
+                        id("ctverecky").children[i].classList.remove("vybrano");
                     }
                     //Vybere a změní hodnotu "vybraneCislo"
                     this.classList.add("vybrano");
                     vybraneCislo = this;
                     pohyb();
                 }
-        }
-    });
+            }
+        });
     }
 }
 
@@ -49,7 +50,9 @@ function startHry(){
     if (id("obtiznost-1").checked) tabulka = jednoducha[0];
     else if (id("obtiznost-2").checked) tabulka = stredni[0];
     else tabulka = obtizna[0];
+    zivoty = 5
     odstranitVyber = false;
+    id("zivoty").textContent ="Životů zbává: 5"
     //Vytvoří tabulku sudoku
     vytvoritTabulku(tabulka);
     //Odstartuje odpočet časovače
@@ -66,7 +69,7 @@ function startCasovace(){
     casovac = setInterval (function(){
         zbyvajiciCas --;
         //Pokud dojde čas, hra končí
-        if (zbyvajiciCas == 0) konecHry();
+        if (zbyvajiciCas === 0) konecHry();
         id ("casovac").textContent = casomira(zbyvajiciCas);
     }, 1000)
 }
@@ -94,12 +97,12 @@ function vytvoritTabulku(tabulka){
                 //Když vybrané pole není zobrazeno
                 if (!odstranitVyber){
                     //Když je pole vybráno
-                    if (pole.classList.List.contains("vybrano")){
+                    if (pole.classList.contains("vybrano")){
                         //Odstraní výběr
                         pole.classList.remove("vybrano");
                         vybranePole = null;
                     }else{
-                        for (let i = 0; i <81; i++){
+                        for (let i = 0; i < 81; i++){
                             qsa(".pole")[i].classList.remove("vybrano");
                         }
                         pole.classList.add("vybrano");
@@ -107,12 +110,12 @@ function vytvoritTabulku(tabulka){
                         pohyb();
                     }
                 }
-            })
+            });
         }
         pole.id = idCount;
         idCount ++;
         pole.classList.add("pole");
-        if ((pole.id > 17 && pole.id < 27 || (pole.id > 44 & pole.id < 54))){
+        if ((pole.id > 17 && pole.id < 27) || (pole.id > 44 & pole.id < 54)){
             pole.classList.add("bottomBorder");
         }
         if ((pole.id + 1) % 9 == 3 || (pole.id + 1) % 9 == 6){
@@ -131,18 +134,47 @@ function pohyb(){
             vybraneCislo.classList.remove("vybrano");
             vybraneCislo = null;
             vybranePole = null;
+            if (overeno()){
+                konecHry();
+            }
         }else{
             odstranitVyber = true;
             vybranePole.classList.add("spatne");
-            nastavitCas(function(){
+            setTimeout(function(){
+                zivoty --;
+                if (zivoty === 0) {
+                        konecHry();
+                }else{
+                        id("zivoty").textContent = "Životů zbývá: " + zivoty;
+                        odstranitVyber = false;
+                }
+                
                 vybranePole.classList.remove("spatne");
                 vybranePole.classList.remove("vybrano");
                 vybraneCislo.classList.remove("vybrano");
                 vybranePole.textContent = "";
                 vybranePole = null;
                 vybraneCislo = null;
-            })
+            }, 1000);
         }
+    }
+}
+
+function overeno(){
+    let policko = qsa(".pole");
+    for (let i = 0; i < policko.length; i++){
+        if (policko[i ].textContent === "") return false;
+    }
+    return true;
+}
+
+function konecHry(){
+    odstranitVyber = true;
+    clearTimeout(casovac);
+    if (zivoty === 0 || zbyvajiciCas === 0){
+        id ("zivoty").textContent = "Prohra!";
+    }else{
+        id("zivoty").textContent = "Výhra!";
     }
 }
 
@@ -150,8 +182,8 @@ function pohyb(){
 function overeni(pole){
     //Nastavení řešení dle obtížnosti
     let reseni;
-    if (id("obtiznos-1").chacked) reseni = jednoducha[1];
-    else if (id("obtiznos-2").chacked) reseni = stredni[1];
+    if (id("obtiznost-1").checked) reseni = jednoducha[1];
+    else if (id("obtiznost-2").checked) reseni = stredni[1];
     else reseni = obtizna[1];
     //Pokud se číslo v poli rovná správnému číslu v řešení
     if (reseni.charAt(pole.id) === pole.textContent) return true;
@@ -159,11 +191,14 @@ function overeni(pole){
 }
 
 function smazatPredchozi(){
+    //Vybere všechna pole
     let policko = qsa(".pole");
+    //Odstraní každé pole
     for (let i = 0; i < policko.length; i++){
         policko[i].remove();
     }
     if (casovac) clearTimeout(casovac);
+    //zruší výběr všech čísel
     for (let i = 0; i < id("ctverecky").children.length; i++){
         id("ctverecky").children[i].classList.remove("vybrano");
     }

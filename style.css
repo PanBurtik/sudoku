@@ -10,7 +10,13 @@ header{
 
 h1{
     font-size: 45pt;
+    font-style: italic;
 }
+
+body{
+    background-color: lightgray;
+}
+
 
 #nastaveni{
     display: flex;
@@ -27,10 +33,14 @@ h1{
 
 button{
     justify-self: center;
+    color: red;
+    background-color: black;
 }
 
 p#casovac, p#zivoty{
-    font-size: 25px;
+    border: black solid;
+    background-color: white;
+    font-size: 30px;
     font-weight: bold;
     text-align: center;
 }
@@ -41,6 +51,8 @@ p#casovac, p#zivoty{
 }
 
 #ctverecky > p{
+    background-color: black;
+    color: red;
     border: 1px solid black;
     border-radius: 20%;
     width: 60px;
@@ -53,6 +65,8 @@ p#casovac, p#zivoty{
 }
 
 #tabulka{
+    background-color: white;
+    border: black solid 7px;
     padding-top: 10px;
     margin-top: 10px;
     display: flex;
@@ -90,6 +104,7 @@ p.spatne{
 }
 
 footer{
+    border: solid black 1px;
     background-color: lightgray;
     text-align: center;
 }
